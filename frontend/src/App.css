@@ -1,6 +1,113 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f3ffe1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  color: #333;
+}
+
+.App {
   text-align: center;
+  background-color: #ffddd2;
+  padding: 50px 25px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+}
+
+.icon-container {
+  width: 250px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.icon-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  font-size: 1em;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  background-color: #ffffe0;
+}
+
+input:focus {
+  outline: none;
+}
+
+button:enabled {
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #efd595;
+  color: #5a3e1b;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:enabled:hover {
+  background-color: #5a3e1b;
+  color: #efd595;
+}
+
+button:active {
+  box-shadow: none;
+}
+
+button:focus,
+button:active {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+button:not(:focus) {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+button:disabled {
+  background-color: #f7eac8;
+  color: #746b56;
+  cursor: not-allowed;
+}
+
+.loading-bar {
+  height: 8px;
+  background-color: #007bff;
+  width: 0;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.loading {
+  animation: load 10s linear forwards;
+}
+
+@keyframes load {
+  to {
+    width: 100%;
+  }
 }

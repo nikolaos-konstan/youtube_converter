@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 import os
+import time
 import pytube
 from moviepy.editor import AudioFileClip
 
@@ -25,14 +26,18 @@ def convert_to_mp3(audio_path, title):
 
 @app.route("/convert", methods=["POST"])
 def convert():
+    start_time = time.time()
     data = request.get_json()
     youtube_link = data["url"]
     audio_path, title = download_youtube_video(youtube_link)
     mp3_path = convert_to_mp3(audio_path, title)
+    end_time = time.time()
+    conversion_time = end_time - start_time
     response = make_response(send_file(mp3_path, as_attachment=True))
-    print("Title", title)
+    title = title.encode("utf-8").decode("latin-1", "ignore")
     response.headers["Title"] = title
-    response.headers["Access-Control-Expose-Headers"] = "Title"
+    response.headers["Conversion-Time"] = str(conversion_time)
+    response.headers["Access-Control-Expose-Headers"] = "Title, Conversion-Time"
     return response
 
 
