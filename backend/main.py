@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, make_response
 from flask_cors import CORS
 import os
 import pytube
@@ -17,9 +17,9 @@ def download_youtube_video(url):
 
 def convert_to_mp3(audio_path, title):
     audio = AudioFileClip(audio_path)
-    mp3_path = os.path.join(os.path.dirname(audio_path), title + ".mp3")
+    mp3_path = title + ".mp3"
     audio.write_audiofile(mp3_path)
-    os.remove(audio_path)  # remove the original audio file
+    os.remove(audio_path)
     return mp3_path
 
 
@@ -29,13 +29,11 @@ def convert():
     youtube_link = data["url"]
     audio_path, title = download_youtube_video(youtube_link)
     mp3_path = convert_to_mp3(audio_path, title)
-    return jsonify(
-        {
-            "status": "success",
-            "message": "Audio downloaded and converted to MP3 successfully!",
-            "mp3_path": mp3_path,
-        }
-    )
+    response = make_response(send_file(mp3_path, as_attachment=True))
+    print("Title", title)
+    response.headers["Title"] = title
+    response.headers["Access-Control-Expose-Headers"] = "Title"
+    return response
 
 
 if __name__ == "__main__":

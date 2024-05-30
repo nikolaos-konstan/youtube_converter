@@ -13,8 +13,21 @@ function App() {
       },
       body: JSON.stringify({ url }),
     });
-    const data = await response.json();
-    console.log(data);
+
+    if (response.ok) {
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      const title = response.headers.get("Title");
+      console.log("Title:", title); // Debugging line
+      a.download = title + ".mp3";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    } else {
+      console.error("Download failed");
+    }
   };
 
   return (
